@@ -2,12 +2,10 @@ const Experience = require("../models/experience");
 
 const getAllExperiences = async (req, res) => {
   const experiences = await Experience.find();
-  res.send(experiences); // res.send(experiences); // res.send sends the data to the browser // create this object if you need to send more than 1 data point
+  res.send(experiences); 
 };
 
 const createExperience = async (req, res) => {
-  console.log(req)
-  // can also be written like: const { title, pictureUrl, country, price, duration } = req.body;
   const title = req.body.title;
   const pictureUrl = req.body.pictureUrl;
   const country = req.body.country;
@@ -15,7 +13,7 @@ const createExperience = async (req, res) => {
   const duration = req.body.duration;
   console.log(req.body)
   const newExperience = await Experience.create({
-    title, // if key and value are the same, you can just take the second one
+    title, 
     pictureUrl,
     country,
     price,
@@ -27,4 +25,33 @@ const createExperience = async (req, res) => {
 
 };
 
-module.exports = { getAllExperiences, createExperience };
+const updateExperience = async (req, res, next) => {
+  try{
+    const experience = await Experience.findOne({
+      _id: req.params.eid,
+      // user: req.user._id
+    })
+
+    if(!experience) return res.status(404).json({
+      status: "Fail",
+      message: "No document found"
+    })
+
+    const fields = Object.keys(req.body);
+    fields.map(field => experience[field] = req.body[field])
+    await experience.save()
+    res.status(200).json({
+      status: "Successfully updated your experience",
+      data: experience
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      status: "error",
+      error: err.message
+    })
+  }
+}
+
+
+module.exports = { getAllExperiences, createExperience, updateExperience };
