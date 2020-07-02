@@ -9,15 +9,22 @@ var indexRouter = require("./routes/index");
 var expRouter = require("./routes/experiences");
 
 var app = express();
-mongoose.connect("mongodb://localhost/");
-
-app.use(logger("dev"));
+mongoose.connect('mongodb://localhost/w9-airbnb', {
+        useCreateIndex: true,
+        useNewUrlParser: true,
+        useFindAndModify: false,
+        useUnifiedTopology: true
+    })
+    .then(() => console.log("connected to MongoDB..."))
+    .catch(err => console.error("failed to connect to MongoDB...", err))
+app.use(logger("dev"))
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cors())
 // app.use(express.urlencoded({ extended: false })); // url encoded is when you pass things in HTML form // when using APIs, not common
 // app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public'))); // a way to serve static assets (CSS files, JS files) - we don't have any pictures/CSS files (bc we're calling APIs)
-
+// pp.get("/test", resfunc(req,))
 app.use("/", indexRouter);
 app.use("/experiences", expRouter);
 
