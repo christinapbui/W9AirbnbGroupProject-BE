@@ -2,8 +2,42 @@ const Experience = require("../models/experience");
 const Tag = require("../models/tag")
 
 const getAllExperiences = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+
+  const startIndex = (page -1) * limit;
+  const endIndex = page*limit;
   const experiences = await Experience.find();
-  res.send(experiences);
+  const results ={};
+
+  if(endIndex<experiences.length){
+    results.next ={
+      page: page +1,
+      limit: limit
+    }
+  }else{
+    return res.status(400).json({message: "Page number out of range"})
+  }
+
+  
+  if(startIndex>0){
+    results.previous ={
+      page: page -1,
+      limit: limit
+    }
+  }else{
+    return res.status(400).json({message: "Page number out of range"})
+  }
+  
+
+  
+    results.results = experiences.slice(startIndex,endIndex)
+    
+
+  
+  res.send(results);
+
+  
 };
 
 const createExperience = async (req, res) => {
@@ -76,6 +110,8 @@ const getSingleExperience = async (req, res) => {
   const experiences = await Experience.findById(req.params.eid);
   res.send(experiences);
 };
+
+
 
 module.exports = {
   getAllExperiences,
