@@ -1,4 +1,5 @@
 const Experience = require("../models/experience");
+const Tag = require("../models/tag")
 
 const getAllExperiences = async (req, res) => {
   const experiences = await Experience.find();
@@ -16,8 +17,12 @@ const createExperience = async (req, res) => {
   const language = req.body.language
   const description = req.body.description
   const host = req.body.host
-  const whatToBring = eq.body.whatToBring
+  const whatToBring = req.body.whatToBring
+  const tags = req.body.tags
   console.log(req.body)
+
+  const newArray = await Tag.convertToObject(tags)
+
   const newExperience = await Experience.create({
     title,
     pictureUrl,
@@ -30,6 +35,7 @@ const createExperience = async (req, res) => {
     description,
     host,
     whatToBring,
+    tags: newArray,
   });
   console.log(newExperience)
   res.send(newExperience);
