@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router({mergeParams:true});
-const { getAllDetail, createDetail, updateDetail } = require("../controllers/detailsController")
+const { getAllDetail, createDetail, updateDetail } = require("../controllers/experiencesController")
 
 // const Experience = require('../models/experience')
 
