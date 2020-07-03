@@ -5,7 +5,7 @@ const cors = require("cors");
 
 var indexRouter = require("./routes/index");
 var expRouter = require("./routes/experiences");
-var detailRouter = require("./routes/detail")
+// var detailRouter = require("./routes/detail")
 
 var app = express();
 mongoose
@@ -24,6 +24,9 @@ app.use(cors());
 
 app.use("/", indexRouter);
 app.use("/experiences", expRouter);
-app.use("/details",detailRouter)
+// app.use("/details",detailRouter)
+
+// experiences/:eid   get => single exp || patch=> update Single Exp || .delete => delete single single epx
+
 
 module.exports = app;

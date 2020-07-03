@@ -11,6 +11,12 @@ const createExperience = async (req, res) => {
   const country = req.body.country;
   const price = req.body.price;
   const duration = req.body.duration;
+  const city = req.body.city
+  const maxGroupSize = req.body.maxGroupSize
+  const language = req.body.language
+  const description = req.body.description
+  const host = req.body.host
+  const whatToBring = eq.body.whatToBring
   console.log(req.body)
   const newExperience = await Experience.create({
     title,
@@ -18,6 +24,12 @@ const createExperience = async (req, res) => {
     country,
     price,
     duration,
+    city,
+    maxGroupSize,
+    language,
+    description,
+    host,
+    whatToBring,
   });
   console.log(newExperience)
   res.send(newExperience);
