@@ -2,7 +2,7 @@ const Experience = require("../models/experience");
 
 const getAllExperiences = async (req, res) => {
   const experiences = await Experience.find();
-  res.send(experiences); 
+  res.send(experiences);
 };
 
 const createExperience = async (req, res) => {
@@ -12,7 +12,7 @@ const createExperience = async (req, res) => {
   const price = req.body.price;
   const duration = req.body.duration;
   const newExperience = await Experience.create({
-    title, 
+    title,
     pictureUrl,
     country,
     price,
@@ -22,32 +22,42 @@ const createExperience = async (req, res) => {
 };
 
 const updateExperience = async (req, res, next) => {
-  try{
+  try {
     const experience = await Experience.findOne({
       _id: req.params.eid,
       // user: req.user._id
-    })
+    });
 
-    if(!experience) return res.status(404).json({
-      status: "Fail",
-      message: "No document found"
-    })
+    if (!experience)
+      return res.status(404).json({
+        status: "Fail",
+        message: "No document found",
+      });
 
     const fields = Object.keys(req.body);
-    fields.map(field => experience[field] = req.body[field])
-    await experience.save()
+    fields.map((field) => (experience[field] = req.body[field]));
+    await experience.save();
     res.status(200).json({
       status: "Successfully updated your experience",
-      data: experience
-    })
+      data: experience,
+    });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({
       status: "error",
-      error: err.message
-    })
+      error: err.message,
+    });
   }
-}
+};
 
+const getSingleExperience = async (req, res) => {
+  const experiences = await Experience.findById(req.params.eid);
+  res.send(experiences);
+};
 
-module.exports = { getAllExperiences, createExperience, updateExperience };
+module.exports = {
+  getAllExperiences,
+  createExperience,
+  updateExperience,
+  getSingleExperience,
+};
