@@ -55,6 +55,11 @@ const expSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
+    tags: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Tag",
+        required: [true, "Experience must have a tag"]
+    }
 });
 
 const Experience = mongoose.model("Experience", expSchema);
