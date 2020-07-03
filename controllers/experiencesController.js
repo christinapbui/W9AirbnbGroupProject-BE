@@ -2,41 +2,31 @@ const Experience = require("../models/experience");
 const Tag = require("../models/tag")
 
 const getAllExperiences = async (req, res) => {
-  const page = parseInt(req.query.page);
-  const limit = parseInt(req.query.limit);
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
 
-  const startIndex = (page -1) * limit;
-  const endIndex = page*limit;
-  const experiences = await Experience.find();
-  const results ={};
-
-  if(endIndex<experiences.length){
-    results.next ={
-      page: page +1,
-      limit: limit
-    }
-  }else{
-    return res.status(400).json({message: "Page number out of range"})
-  }
-
+  const skip = (page -1) * limit;
+  // const endIndex = page*limit;
+  let query =  Experience.find();
   
-  if(startIndex>0){
-    results.previous ={
-      page: page -1,
-      limit: limit
-    }
-  }else{
-    return res.status(400).json({message: "Page number out of range"})
-  }
+
+
+  query = query.skip(skip).limit(limit);
   
 
   
-    results.results = experiences.slice(startIndex,endIndex)
-    
+  const countExperiences =  await Experience.find( ).countDocuments() // total docs
+    if (page && skip > countExperiences)
+      return res.send("Out of range")
 
+    // execute
+
+    // res.json({ status: "success", data: exps, count: countExperiences }); // add countExperiences as well
+
+    const experiences = await query
   
-  res.send(results);
-
+  // res.send(results);
+res.send({ data: experiences, total: countExperiences, page: page, perpage: limit})
   
 };
 
