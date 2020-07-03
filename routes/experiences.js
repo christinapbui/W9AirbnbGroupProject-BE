@@ -3,6 +3,8 @@ var router = express.Router({mergeParams:true});
 // const Experience = require("../models/experience"); // need to import model
 const { getAllExperiences, createExperience, getSingleExperience, updateExperience } = require("../controllers/experiencesController")
 
+// const Experience = require('../models/experience')
+
 /* GET experiences listing. */
 router.route("/")
 .get(getAllExperiences)

@@ -11,6 +11,7 @@ const createExperience = async (req, res) => {
   const country = req.body.country;
   const price = req.body.price;
   const duration = req.body.duration;
+  console.log(req.body)
   const newExperience = await Experience.create({
     title,
     pictureUrl,
@@ -18,7 +19,10 @@ const createExperience = async (req, res) => {
     price,
     duration,
   });
+  console.log(newExperience)
   res.send(newExperience);
+  // res.send("okk")
+
 };
 
 const updateExperience = async (req, res, next) => {
