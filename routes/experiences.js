@@ -1,7 +1,9 @@
 var express = require("express");
 var router = express.Router({mergeParams:true});
 // const Experience = require("../models/experience"); // need to import model
-const { getAllExperiences, createExperience, getSingleExperience, updateExperience } = require("../controllers/experiencesController")
+const { getAllExperiences, createExperience, getSingleExperience, updateExperience } = require("../controllers/experiencesController");
+const detailsController = require("../controllers/detailsController");
+var detailRouter = require("../detail")
 
 // const Experience = require('../models/experience')
 
@@ -13,5 +15,6 @@ router.route("/")
 router.route("/:eid")
 .get(getSingleExperience)
 .patch(updateExperience)
+
 
 module.exports = router;
