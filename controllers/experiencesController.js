@@ -5,13 +5,24 @@ const getAllExperiences = async (req, res) => {
   const page = parseInt(req.query.page) || 1; // .page is the param 
   // const limit = parseInt(req.query.limit) || 10;
   const PAGE_SIZE = 25
-
+  const minPrice = parseInt(req.query.minPrice) || 1;
+  const maxPrice = rparseInt(eq.query.maxPrice) || 1000;
   const skip = (page -1) * limit;
   // class notes: const numToSkip = (parseInt(page) -1) * PAGE_SIZE 
   // const endIndex = page*limit;
   let query =  Experience.find(); // can write as Experience.find().limit(numToSkip).skip(PAGE_SIZE) // ".skip()" will let you skip X num of items to go to next page 
-  const numDocuments = await Experience.countDocuments()  
+  
 
+  const experiences = await Experience.find({
+    price: {$gte: minPrice, lte: maxPrice}
+  })
+    .skip(skip)
+    .limit(PAGE_SIZE)
+    .sort({price:1})
+  
+  const numDocuments = await Experience.countDocuments({
+    price: {$gte: minPrice, lte: maxPrice}
+  })  
 
   query = query.skip(skip).limit(limit);
   res.send({
