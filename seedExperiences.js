@@ -15,10 +15,16 @@ async function createExperiences(numExperiences) {
     for (let i = 0; i < num; i++) {
         let experience = await Experience.create({
             title: faker.lorem.sentence(),
-            pictureUrl: faker.image.image(),
+            pictureUrl: faker.image.imageUrl(),
             country: faker.address.country(),
             duration: faker.random.number(),
             price: faker.commerce.price(),
+            city: faker.address.city(),
+            maxGroupSize: faker.random.number(),
+            language: faker.lorem.word(),
+            description: faker.lorem.paragraph(),
+            host: faker.lorem.word(),
+            whatToBring: faker.lorem.lines(),
         });
         console.log(`Created ${i} - ${experience.title}`);
     }
