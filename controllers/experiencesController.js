@@ -6,7 +6,7 @@ const getAllExperiences = async (req, res) => {
   // const limit = parseInt(req.query.limit) || 10;
   const PAGE_SIZE = 25
   const minPrice = parseInt(req.query.minPrice) || 1;
-  const maxPrice = rparseInt(eq.query.maxPrice) || 1000;
+  const maxPrice = parseInt(eq.query.maxPrice) || 1000;
   const skip = (page -1) * limit;
   // class notes: const numToSkip = (parseInt(page) -1) * PAGE_SIZE 
   // const endIndex = page*limit;
@@ -29,8 +29,17 @@ const getAllExperiences = async (req, res) => {
     data: experiences,
     maxPageNum: Math.ceil(numDocuments / PAGE_SIZE)
   })
-  
 
+//   const page = parseInt(req.query.page) || 1;
+//   const limit = parseInt(req.query.limit) || 10;
+
+//   const skip = (page -1) * limit;
+  // const endIndex = page*limit;
+//   let query =  Experience.find();
+ 
+
+
+  query = query.skip(skip).limit(limit);
   
   const countExperiences =  await Experience.find( ).countDocuments() // total docs
     if (page && skip > countExperiences)
