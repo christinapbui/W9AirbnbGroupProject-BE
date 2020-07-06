@@ -3,15 +3,15 @@ const Tag = require("../models/tag");
 
 const getAllExperiences = async (req, res) => {
     const page = parseInt(req.query.page) || 1; // .page is the param
-    // const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 10;
     const PAGE_SIZE = 25;
     const minPrice = parseInt(req.query.minPrice) || 1;
-    const maxPrice = parseInt(eq.query.maxPrice) || 1000;
+    const maxPrice = parseInt(req.query.maxPrice) || 1000;
     const skip = (page - 1) * limit;
     // class notes: const numToSkip = (parseInt(page) -1) * PAGE_SIZE
     // const endIndex = page*limit;
-    let query = Experience.find(); // can write as Experience.find().limit(numToSkip).skip(PAGE_SIZE) // ".skip()" will let you skip X num of items to go to next page
 
+    console.log("getting page", page);
     const experiences = await Experience.find({
         price: { $gte: minPrice, $lte: maxPrice },
     })
@@ -23,36 +23,24 @@ const getAllExperiences = async (req, res) => {
         price: { $gte: minPrice, $lte: maxPrice },
     });
 
-    query = query.skip(skip).limit(limit);
+    // query = query.skip(skip).limit(limit);
     res.send({
         data: experiences,
         maxPageNum: Math.ceil(numDocuments / PAGE_SIZE),
     });
-    //   const page = parseInt(req.query.page) || 1;
-    //   const limit = parseInt(req.query.limit) || 10;
 
-    //   const skip = (page -1) * limit;
-    // const endIndex = page*limit;
-    //   let query =  Experience.find();
-
-    query = query.skip(skip).limit(limit);
-
-    const countExperiences = await Experience.find().countDocuments(); // total docs
-    if (page && skip > countExperiences) return res.send("Out of range");
+    // const countExperiences =  await Experience.find( ).countDocuments() // total docs
+    //   if (page && skip > countExperiences)
+    //     return res.send("Out of range")
 
     // execute
 
     // res.json({ status: "success", data: exps, count: countExperiences }); // add countExperiences as well
 
-    const experiences = await query;
+    //     experiences = await query
 
-    // res.send(results);
-    res.send({
-        data: experiences,
-        total: countExperiences,
-        page: page,
-        perpage: limit,
-    });
+    //   // res.send(results);
+    // res.send({ data: experiences, total: countExperiences, page: page, perpage: limit})
 };
 
 const createExperience = async (req, res) => {
