@@ -2,16 +2,22 @@ const Experience = require("../models/experience");
 const Tag = require("../models/tag")
 
 const getAllExperiences = async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
+  const page = parseInt(req.query.page) || 1; // .page is the param 
   const limit = parseInt(req.query.limit) || 10;
+  const PAGE_SIZE = 25
 
   const skip = (page -1) * limit;
+  // class notes: const numToSkip = (parseInt(page) -1) * PAGE_SIZE 
   // const endIndex = page*limit;
-  let query =  Experience.find();
-  
+  let query =  Experience.find(); // can write as Experience.find().limit(numToSkip).skip(PAGE_SIZE) // ".skip()" will let you skip X num of items to go to next page 
+  const numDocuments = await Experience.countDocuments()  
 
 
   query = query.skip(skip).limit(limit);
+  res.send({
+    data: experiences,
+    maxPageNum: Math.ceil(numDocuments / PAGE_SIZE)
+  })
   
 
   
