@@ -23,6 +23,7 @@ const getAllExperiences = async (req, res) => {
         price: { $gte: minPrice, $lte: maxPrice },
     });
 
+    // query = query.skip(skip).limit(limit);
     res.send({
         data: experiences,
         maxPageNum: Math.ceil(numDocuments / PAGE_SIZE),

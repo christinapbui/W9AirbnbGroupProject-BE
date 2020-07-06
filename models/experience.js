@@ -32,7 +32,7 @@ const expSchema = new mongoose.Schema({
     city: {
         type: String,
         trim: true,
-        required: [true, "City must be added!"],
+        // required: [true, "City must be added!"],
     },
     maxGroupSize: {
         type: Number,
@@ -41,7 +41,7 @@ const expSchema = new mongoose.Schema({
     language: {
         type: String,
         trim: true,
-        required: [true, "Language is required!"],
+        // required: [true, "Language is required!"],
     },
     description: {
         type: String,
@@ -49,7 +49,7 @@ const expSchema = new mongoose.Schema({
     host: {
         type: String,
         trim: true,
-        required: [true, "Experience must have a host"],
+        // required: [true, "Experience must have a host"],
     },
     whatToBring: {
         type: String,
