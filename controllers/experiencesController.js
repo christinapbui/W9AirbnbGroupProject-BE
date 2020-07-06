@@ -6,7 +6,7 @@ const getAllExperiences = async (req, res) => {
   // const limit = parseInt(req.query.limit) || 10;
   const PAGE_SIZE = 25
   const minPrice = parseInt(req.query.minPrice) || 1;
-  const maxPrice = rparseInt(eq.query.maxPrice) || 1000;
+  const maxPrice = parseInt(eq.query.maxPrice) || 1000;
   const skip = (page -1) * limit;
   // class notes: const numToSkip = (parseInt(page) -1) * PAGE_SIZE 
   // const endIndex = page*limit;
