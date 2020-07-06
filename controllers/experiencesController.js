@@ -1,6 +1,9 @@
 const Experience = require("../models/experience");
 const Tag = require("../models/tag");
 
+
+
+
 const getAllExperiences = async (req, res) => {
     const page = parseInt(req.query.page) || 1; // .page is the param
     const limit = parseInt(req.query.limit) || 10;
