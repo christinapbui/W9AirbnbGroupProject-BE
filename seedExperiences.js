@@ -4,7 +4,7 @@
 // console.log(process.argv) // get every argument in an array
 
 const faker = require("faker");
-const Experience = require("./models.experience");
+const Experience = require("./models/experience");
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/w9-airbnb");
 
