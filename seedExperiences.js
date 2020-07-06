@@ -24,6 +24,7 @@ async function createExperiences(numExperiences) {
             language: faker.lorem.word(),
             description: faker.lorem.paragraph(),
             host: faker.lorem.word(),
+            // whatToBring: faker.lorem.lines(),
             whatToBring: faker.lorem.lines(),
         });
         console.log(`Created ${i} - ${experience.title}`);
