@@ -55,7 +55,7 @@ const createExperience = async (req, res) => {
     const description = req.body.description;
     const host = req.body.host;
     const whatToBring = req.body.whatToBring;
-    const tags = req.body.tags;
+    // const tags = req.body.tags;
     console.log(req.body);
 
     const newArray = await Tag.convertToObject(tags);
@@ -72,7 +72,7 @@ const createExperience = async (req, res) => {
         description,
         host,
         whatToBring,
-        tags: newArray,
+        // tags: newArray,
     });
     console.log(newExperience);
     res.send(newExperience);
