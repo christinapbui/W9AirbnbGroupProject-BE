@@ -1,6 +1,9 @@
 const Experience = require("../models/experience");
 const Tag = require("../models/tag");
 
+
+
+
 const getAllExperiences = async (req, res) => {
     const page = parseInt(req.query.page) || 1; // .page is the param
     const limit = parseInt(req.query.limit) || 10;
@@ -15,9 +18,10 @@ const getAllExperiences = async (req, res) => {
     const experiences = await Experience.find({
         price: { $gte: minPrice, $lte: maxPrice },
     })
-        .skip(skip)
+        .populate("tags") .skip(skip)
         .limit(PAGE_SIZE)
         .sort({ price: 1 });
+
 
     const numDocuments = await Experience.countDocuments({
         price: { $gte: minPrice, $lte: maxPrice },
@@ -55,10 +59,12 @@ const createExperience = async (req, res) => {
     const description = req.body.description;
     const host = req.body.host;
     const whatToBring = req.body.whatToBring;
+    const tags = req.body.tags
     // const tags = req.body.tags;
     console.log(req.body);
 
-    const newArray = await Tag.convertToObject(tags);
+    const newArray = await Tag.convertToObject(tags.split(","));
+
 
     const newExperience = await Experience.create({
         title,
@@ -72,7 +78,7 @@ const createExperience = async (req, res) => {
         description,
         host,
         whatToBring,
-        // tags: newArray,
+        tags: newArray,
     });
     console.log(newExperience);
     res.send(newExperience);
@@ -109,7 +115,8 @@ const updateExperience = async (req, res, next) => {
 };
 
 const getSingleExperience = async (req, res) => {
-    const experiences = await Experience.findById(req.params.eid);
+    const experiences = await (await Experience.findById(req.params.eid).populate('tags'));
+    console.log(experiences)
     res.send(experiences);
 };
 
