@@ -18,9 +18,10 @@ const getAllExperiences = async (req, res) => {
     const experiences = await Experience.find({
         price: { $gte: minPrice, $lte: maxPrice },
     })
-        .skip(skip)
+        .populate("tags") .skip(skip)
         .limit(PAGE_SIZE)
         .sort({ price: 1 });
+
 
     const numDocuments = await Experience.countDocuments({
         price: { $gte: minPrice, $lte: maxPrice },
@@ -58,10 +59,12 @@ const createExperience = async (req, res) => {
     const description = req.body.description;
     const host = req.body.host;
     const whatToBring = req.body.whatToBring;
-    const tags = req.body.tags;
+    const tags = req.body.tags
+    // const tags = req.body.tags;
     console.log(req.body);
 
-    const newArray = await Tag.convertToObject(tags);
+    const newArray = await Tag.convertToObject(tags.split(","));
+
 
     const newExperience = await Experience.create({
         title,
@@ -112,7 +115,8 @@ const updateExperience = async (req, res, next) => {
 };
 
 const getSingleExperience = async (req, res) => {
-    const experiences = await Experience.findById(req.params.eid);
+    const experiences = await (await Experience.findById(req.params.eid).populate('tags'));
+    console.log(experiences)
     res.send(experiences);
 };
 
